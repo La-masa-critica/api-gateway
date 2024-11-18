@@ -1,22 +1,32 @@
 spring:
+  cache:
+    type: caffeine
   application:
     name: api-gateway
   main:
     web-application-type: reactive
-
   cloud:
     gateway:
-        routes:
-          - id: item-service
-            uri: lb://ITEM-SERVICE
-            predicates:
-              - Path=/api/v1/category/**
-              - Path=/api/v1/item/**
-          - id: sale-service
-            uri: lb://SALE-SERVICE
-            predicates:
-              - Path=/api/v1/cart/**
-              - Path=/api/v1/sale/**
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: item-service
+          uri: lb://ITEM-SERVICE
+          predicates:
+            - Path=/api/v1/item/**
+        - id: category-service
+          uri: lb://ITEM-SERVICE
+          predicates:
+            - Path=/api/v1/category/**
+        - id: cart-service
+          uri: lb://SALE-SERVICE
+          predicates:
+            - Path=/api/v1/cart/**
+        - id: sale-service
+          uri: lb://SALE-SERVICE
+          predicates:
+            - Path=/api/v1/sale/**
 
 eureka:
   client:

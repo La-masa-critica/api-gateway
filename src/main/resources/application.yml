@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: item-service
+          uri: lb://ITEM-SERVICE
+          predicates:
+            - Path=/api/v1/category/**, /api/v1/item/**
+        - id: sale-service
+          uri: lb://SALE-SERVICE
+          predicates:
+            - Path=/api/v1/cart/**, /api/v1/sale/**
+
+  main:
+    web-application-type: reactive
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
