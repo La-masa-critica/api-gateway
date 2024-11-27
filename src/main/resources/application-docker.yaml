@@ -54,9 +54,15 @@ spring:
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
-              - Path=/auth/**
+              - Path=/api/v1/auth/**
           metadata:
               public: true
+        - id: profile-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+              - Path=/api/v1/profile/**
+          metadata:
+              public: false
 
 eureka:
   client:
