@@ -58,13 +58,6 @@ public class AuthenticationFilter
         return null;
     }
 
-    /*
-     * private boolean isPublicRoute(String path) { return Optional
-     * .ofNullable(routeLocator.getRoutes() .filter(route ->
-     * route.getUri().getPath().equals(path)).blockFirst()) .map(route ->
-     * route.getUri().getPath().equals(path)).orElse(false); }
-     */
-
     public static class Config {
         // Aquí puedes agregar configuraciones personalizadas
     }
