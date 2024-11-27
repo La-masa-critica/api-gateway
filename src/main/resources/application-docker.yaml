@@ -15,18 +15,48 @@ spring:
           uri: lb://ITEM-SERVICE
           predicates:
             - Path=/api/v1/item/**
+          filters:
+          - name: AuthenticationFilter
+            args:
+              role: ROLE_USER
+          metadata:
+            public: true
         - id: category-service
           uri: lb://ITEM-SERVICE
           predicates:
             - Path=/api/v1/category/**
+          filters:
+          - name: AuthenticationFilter
+            args:
+              role: ROLE_USER
+          metadata:
+            public: true
         - id: cart-service
           uri: lb://SALE-SERVICE
           predicates:
             - Path=/api/v1/cart/**
+          filters:
+          - name: AuthenticationFilter
+            args:
+              role: ROLE_USER
+          metadata:
+            public: true
         - id: sale-service
           uri: lb://SALE-SERVICE
           predicates:
             - Path=/api/v1/sale/**
+          filters:
+            - name: AuthenticationFilter
+              args:
+                role: ROLE_USER
+          metadata:
+            public: false
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+              - Path=/auth/**
+          metadata:
+              public: true
 
 eureka:
   client:
