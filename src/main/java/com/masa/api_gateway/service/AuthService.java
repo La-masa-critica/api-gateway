@@ -12,7 +12,7 @@ public class AuthService {
     private final WebClient webClient;
 
     public AuthService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://auth-service:8093/auth").build();
+        this.webClient = webClientBuilder.baseUrl("http://auth-service:8093/api/v1/auth").build();
     }
 
     public Mono<ValidationResponse> validateToken(String token) {
