@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 @Component
 public class AuthenticationFilter
@@ -35,9 +37,15 @@ public class AuthenticationFilter
                             .header("X-User-Role", response.getRole());
                     return chain.filter(exchange);
                 } else {
-                    exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
+            }).onErrorResume(WebClientResponseException.class, ex -> {
+                if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return exchange.getResponse().setComplete();
+                }
+                return Mono.error(ex);
             });
         };
     }
