@@ -21,7 +21,16 @@ public class AuthService {
                 .onErrorResume(WebClientResponseException.class, ex -> {
                     if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                         return Mono.just(
-                                new ValidationResponse(false, 0, null, null, null, "Unauthorized"));
+                                ValidationResponse.builder()
+                                        .valid(false)
+                                        .message("Unauthorized")
+                                        .expiration(0L)
+                                        .permissions(null)
+                                        .role(null)
+                                        .userId(0)
+                                        .username(null)
+                                        .build()
+                        );
                     }
                     return Mono.error(ex);
                 });
